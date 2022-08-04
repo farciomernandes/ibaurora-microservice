@@ -1,0 +1,38 @@
+{
+  "types": [
+    {
+      "type": "feat",
+      "section": "Features"
+    },
+    {
+      "type": "fix",
+      "section": "Bug Fixes"
+    },
+    {
+      "type": "chore",
+      "hidden": true
+    },
+    {
+      "type": "docs",
+      "hidden": true
+    },
+    {
+      "type": "style",
+      "hidden": true
+    },
+    {
+      "type": "refactor",
+      "hidden": true
+    },
+    {
+      "type": "perf",
+      "hidden": true
+    },
+    {
+      "type": "test",
+      "hidden": true
+    }
+  ],
+  "commitUrlFormat": "https://gitlab.usemobile.com.br/ana.moraes/backend-get-started/commits{{hash}}",
+  "compareUrlFormat": "https://gitlab.usemobile.com.br/ana.moraes/backend-get-started/compare/{{previousTag}}...{{currentTag}}"
+}
