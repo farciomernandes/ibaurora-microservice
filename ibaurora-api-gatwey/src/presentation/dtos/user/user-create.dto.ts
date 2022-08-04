@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsNotEmpty,
+  IsInt,
   IsString,
   IsUUID,
   Matches,
@@ -44,6 +45,17 @@ export class UserCreateDto {
   @IsNotEmpty()
   @Matches(RegexHelper.password, { message: MessagesHelper.INVALID_PASSWORD })
   password: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Old of user',
+    example: 24,
+    required: true,
+    type: Number,
+  })
+  @IsInt()
+  @IsNotEmpty()
+  old: number;
 
   @Expose()
   @ApiProperty({

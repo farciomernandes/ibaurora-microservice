@@ -28,10 +28,16 @@ export class UserController {
   logger = new Logger(UserController.name);
 
   @EventPattern('consultar-usuarios')
-  public async findAll(): Promise<UserCreatedDto[]> {
+  public async findAll(@Ctx() context: RmqContext): Promise<UserCreatedDto[]> {
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
     try {
-      return await this.getAllUsers.execute();
+      const users = await this.getAllUsers.execute();
+      await channel.ack(originalMsg);
+      return users;
     } catch (error) {
+      this.logger.error(`${JSON.stringify(error)}`);
+      await channel.ack(originalMsg);
       if (error instanceof GenericGetAllUser) {
         throw new BadRequestException(error.message);
       }

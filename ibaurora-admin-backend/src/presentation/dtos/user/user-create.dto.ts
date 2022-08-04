@@ -1,5 +1,6 @@
 import {
   IsEmail,
+  IsInt,
   IsNotEmpty,
   IsString,
   IsUUID,
@@ -25,6 +26,11 @@ export class UserCreateDto {
   @IsNotEmpty()
   @Matches(RegexHelper.password, { message: MessagesHelper.INVALID_PASSWORD })
   password: string;
+
+  @Expose()
+  @IsNotEmpty()
+  @IsInt()
+  old: number;
 
   @Expose()
   @IsUUID()

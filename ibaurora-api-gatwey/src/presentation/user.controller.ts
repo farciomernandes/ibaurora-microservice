@@ -65,8 +65,11 @@ export class UserController {
       const { message } = error as Error;
       if (message == DomainError.UserAlreadyExists.message) {
         throw new BadRequestException(message);
+      } else if (message == 'no elements in sequence') {
+        return;
+      } else {
+        throw new InternalServerErrorException(MessagesHelper.UNEXPECTED_ERROR);
       }
-      throw new InternalServerErrorException(MessagesHelper.UNEXPECTED_ERROR);
     }
   }
 }
