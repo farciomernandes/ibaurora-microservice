@@ -10,6 +10,7 @@ import { RoleModule } from './infra/modules/role/role.module';
 import { ClientModule } from './infra/modules/client/client.module';
 import { ProxyRMQModule } from './infra/proxyrmq/proxyrmq.module';
 import { ClientProxyCristolandia } from './infra/proxyrmq/client-proxy';
+import { FinanceModule } from './infra/modules/finance/finance.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ClientProxyCristolandia } from './infra/proxyrmq/client-proxy';
     UserModule,
     AuthModule,
     RoleModule,
+    FinanceModule,
     ClientModule,
     ProxyRMQModule,
   ],
