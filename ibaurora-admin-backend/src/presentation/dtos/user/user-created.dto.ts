@@ -11,6 +11,9 @@ export class UserCreatedDto {
   email: string;
 
   @Expose()
+  old: number;
+
+  @Expose()
   photo: string;
 
   @Expose()

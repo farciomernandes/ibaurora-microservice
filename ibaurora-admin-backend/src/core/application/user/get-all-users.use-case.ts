@@ -13,7 +13,6 @@ export class GetAllUsersUseCase implements BaseUseCase {
     if (users === undefined || users === null) {
       throw DomainError.GenericErrorGetAllUsers;
     }
-    console.log(users);
     return users.map(
       (user: User): UserCreatedDto => new UserCreatedMapper().mapTo(user),
     );
