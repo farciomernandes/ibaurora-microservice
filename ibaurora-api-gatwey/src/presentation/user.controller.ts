@@ -39,6 +39,7 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(Roles.ADMIN)
+  @Role(Roles.USER)
   @Get()
   @HttpCode(HttpStatus.OK)
   public async findAll(): Promise<UserCreatedDto[]> {
@@ -63,9 +64,9 @@ export class UserController {
       await lastValueFrom(this.clientAdminBackend.send('criar-usuario', body));
     } catch (error) {
       const { message } = error as Error;
-      if (message == DomainError.UserAlreadyExists.message) {
+      if (message == 'no elements in sequence') {
         throw new BadRequestException(message);
-      } else if (message == 'no elements in sequence') {
+      } else if (message == DomainError.UserAlreadyExists.message) {
         return;
       } else {
         throw new InternalServerErrorException(MessagesHelper.UNEXPECTED_ERROR);
