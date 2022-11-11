@@ -30,7 +30,7 @@ export class UserCreateDto {
   @Expose()
   @IsNotEmpty()
   @IsInt()
-  old: number;
+  date_of_birth: string;
 
   @Expose()
   @IsUUID()

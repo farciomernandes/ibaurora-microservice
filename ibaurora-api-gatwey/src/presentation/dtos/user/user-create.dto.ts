@@ -5,6 +5,7 @@ import {
   IsString,
   IsUUID,
   Matches,
+  IsDate,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { RegexHelper } from '@shared/helpers/regex.helper';
@@ -48,14 +49,35 @@ export class UserCreateDto {
 
   @Expose()
   @ApiProperty({
-    description: 'Old of user',
-    example: 24,
+    description: 'Date of birth',
     required: true,
-    type: Number,
+    type: String,
   })
-  @IsInt()
+  @IsDate()
   @IsNotEmpty()
-  old: number;
+  date_of_birth: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Photo uri of user',
+    example: 'Usemobile@123',
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @IsNotEmpty()
+  photo: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Phone number of user',
+    example: '88991613615',
+    required: true,
+    type: String,
+  })
+  @IsString()
+  @IsNotEmpty()
+  phone: string;
 
   @Expose()
   @ApiProperty({

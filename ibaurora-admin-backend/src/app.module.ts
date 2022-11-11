@@ -7,7 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './infra/modules/auth/auth.module';
 import { TypeOrmDataSource } from './infra/db/database.provider';
 import { RoleModule } from './infra/modules/role/role.module';
-import { ClientModule } from './infra/modules/client/client.module';
 
 @Module({
   imports: [
@@ -27,7 +26,6 @@ import { ClientModule } from './infra/modules/client/client.module';
     UserModule,
     AuthModule,
     RoleModule,
-    ClientModule,
   ],
   controllers: [AppController],
   providers: [],

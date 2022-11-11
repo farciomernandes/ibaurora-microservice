@@ -9,12 +9,18 @@ import { Role } from '../../entities/role.entity';
 export class CreateUserMapper
   implements MapFrom<UserCreateDto, User>, MapTo<User, UserCreatedDto>
 {
-  public mapFrom({ email, name, password, roleId, old }: UserCreateDto): User {
+  public mapFrom({
+    email,
+    name,
+    password,
+    roleId,
+    date_of_birth,
+  }: UserCreateDto): User {
     const user = new User();
     user.role = new Role();
     user.name = name;
     user.email = email;
-    user.old = old;
+    user.date_of_birth = date_of_birth;
     user.password = password;
     user.role.id = roleId;
     return user;

@@ -29,11 +29,18 @@ export class createTableUsers1654897936960 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'old',
-            type: 'integer',
+            name: 'date_of_birth',
+            type: 'timestamp',
+            default: null,
+            isNullable: true,
           },
           {
             name: 'photo',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'phone',
             type: 'varchar',
             isNullable: true,
           },

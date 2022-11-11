@@ -7,10 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './infra/modules/auth/auth.module';
 import { TypeOrmDataSource } from './infra/db/database.provider';
 import { RoleModule } from './infra/modules/role/role.module';
-import { ClientModule } from './infra/modules/client/client.module';
 import { ProxyRMQModule } from './infra/proxyrmq/proxyrmq.module';
-import { ClientProxyCristolandia } from './infra/proxyrmq/client-proxy';
-import { FinanceModule } from './infra/modules/finance/finance.module';
+import { ClientProxyIbAurora } from './infra/proxyrmq/client-proxy';
 
 @Module({
   imports: [
@@ -30,12 +28,10 @@ import { FinanceModule } from './infra/modules/finance/finance.module';
     UserModule,
     AuthModule,
     RoleModule,
-    FinanceModule,
-    ClientModule,
     ProxyRMQModule,
   ],
   controllers: [AppController],
-  providers: [ClientProxyCristolandia],
+  providers: [ClientProxyIbAurora],
   exports: [],
 })
 export class AppModule {}

@@ -6,7 +6,9 @@ import {
   HttpCode,
   HttpStatus,
   InternalServerErrorException,
+  Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { RoleGuard } from '@infra/modules/auth/guards/role.guard';
@@ -18,10 +20,13 @@ import { MessagesHelper } from '@shared/helpers/messages.helper';
 import { GetAllUsersUseCase } from '@core/application/user/get-all-users.use-case';
 import { GenericGetAllUser } from '@core/domain/errors/users/generic-get-all-users.error';
 import { JwtAuthGuard } from '@infra/modules/auth/guards/jwt.guard';
-import { ClientProxyCristolandia } from '@/infra/proxyrmq/client-proxy';
+import { ClientProxyIbAurora } from '@/infra/proxyrmq/client-proxy';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { DomainError } from '@/core/domain/errors';
+import { CreateUserUseCase } from '@/core/application/user';
+import { UpdateUserUseCase } from '@/core/application/user/update-user.use-case';
+import { GetUserUsecase } from '@/core/application/user/get-user.use-case';
 
 @Controller('users')
 @ApiTags('Users')
@@ -29,11 +34,14 @@ export class UserController {
   private clientAdminBackend: ClientProxy;
 
   constructor(
-    private clientProxyCristolandia: ClientProxyCristolandia,
+    private clientProxyIbAurora: ClientProxyIbAurora,
     private readonly getAllUsers: GetAllUsersUseCase,
+    private readonly createUser: CreateUserUseCase,
+    private readonly updateUser: UpdateUserUseCase,
+    private readonly getUser: GetUserUsecase,
   ) {
     this.clientAdminBackend =
-      this.clientProxyCristolandia.getClientProxyAdminBackendInstancia();
+      this.clientProxyIbAurora.getClientProxyAdminBackendInstancia();
   }
 
   @ApiBearerAuth()
@@ -44,9 +52,29 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   public async findAll(): Promise<UserCreatedDto[]> {
     try {
-      return await lastValueFrom(
-        this.clientAdminBackend.send('consultar-usuarios', ''),
-      );
+      const users = await this.getAllUsers.execute();
+      return users;
+    } catch (error) {
+      if (error instanceof GenericGetAllUser) {
+        throw new BadRequestException(error.message);
+      }
+      throw new InternalServerErrorException(MessagesHelper.UNEXPECTED_ERROR);
+    }
+  }
+
+  @ApiBearerAuth('/:id')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role(Roles.ADMIN)
+  @Role(Roles.USER)
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  public async findOne(@Param('id') id: string): Promise<UserCreatedDto> {
+    try {
+      return await this.getUser.execute(id);
+
+      /*return await lastValueFrom(
+        this.clientAdminBackend.send('buscar-usuario', id),
+      );*/
     } catch (error) {
       if (error instanceof GenericGetAllUser) {
         throw new BadRequestException(error.message);
@@ -56,18 +84,42 @@ export class UserController {
   }
 
   @Post()
-  @Role(Roles.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   @ApiCreatedResponse({ type: UserCreatedDto })
   public async create(@Body() body: UserCreateDto): Promise<any> {
     try {
-      await lastValueFrom(this.clientAdminBackend.send('criar-usuario', body));
+      return await this.createUser.execute(body);
+      //await lastValueFrom(this.clientAdminBackend.send('criar-usuario', body));
     } catch (error) {
       const { message } = error as Error;
       if (message == 'no elements in sequence') {
-        throw new BadRequestException(message);
-      } else if (message == DomainError.UserAlreadyExists.message) {
         return;
+        //throw new BadRequestException(message);
+      } else if (message == DomainError.UserAlreadyExists.message) {
+        throw new BadRequestException(message);
+      } else {
+        throw new InternalServerErrorException(MessagesHelper.UNEXPECTED_ERROR);
+      }
+    }
+  }
+
+  @Put('/:id')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiCreatedResponse({ type: UserCreatedDto })
+  public async update(
+    @Body() body: UserCreateDto,
+    @Param('id') id: string,
+  ): Promise<any> {
+    try {
+      return await this.updateUser.execute(id, body);
+      //await lastValueFrom(this.clientAdminBackend.send('criar-usuario', body));
+    } catch (error) {
+      const { message } = error as Error;
+      if (message == 'no elements in sequence') {
+        return;
+        //throw new BadRequestException(message);
+      } else if (message == DomainError.UserAlreadyExists.message) {
+        throw new BadRequestException(message);
       } else {
         throw new InternalServerErrorException(MessagesHelper.UNEXPECTED_ERROR);
       }

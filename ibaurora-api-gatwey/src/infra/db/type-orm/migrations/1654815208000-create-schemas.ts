@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 import { SchemasEnum } from '../../schemas.enum';
 
 export class createSchemas1654815208000 implements MigrationInterface {
-  public schemas = [SchemasEnum.users, SchemasEnum.finances];
+  public schemas = [SchemasEnum.users];
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
     for (const schema of this.schemas) {

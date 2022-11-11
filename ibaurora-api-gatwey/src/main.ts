@@ -40,7 +40,7 @@ async function bootstrap() {
 
 const setDocumentation = (app) => {
   const config = new DocumentBuilder()
-    .setTitle('Cristolândia')
+    .setTitle('IbAurora')
     .setDescription('Documentation app')
     .setVersion('1.0')
     .addBearerAuth()
@@ -50,7 +50,7 @@ const setDocumentation = (app) => {
     swaggerOptions: {
       persistAuthorization: true,
     },
-    customSiteTitle: 'Cristolândia',
+    customSiteTitle: 'IbAurora',
   });
 };
 

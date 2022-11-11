@@ -19,10 +19,9 @@ export const UserSchema = new EntitySchema<User>({
       nullable: false,
       unique: true,
     },
-    old: {
-      type: 'integer',
+    date_of_birth: {
+      type: 'varchar',
       nullable: false,
-      unique: true,
     },
     password: {
       type: 'varchar',
