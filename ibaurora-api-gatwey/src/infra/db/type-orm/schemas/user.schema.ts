@@ -24,6 +24,14 @@ export const UserSchema = new EntitySchema<User>({
       nullable: false,
       unique: true,
     },
+    phone: {
+      type: 'varchar',
+      nullable: true,
+    },
+    photo: {
+      type: 'varchar',
+      nullable: true,
+    },
     password: {
       type: 'varchar',
       nullable: false,

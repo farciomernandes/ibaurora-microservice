@@ -15,12 +15,16 @@ export class CreateUserMapper
     password,
     roleId,
     date_of_birth,
+    phone,
+    photo,
   }: UserCreateDto): User {
     const user = new User();
     user.role = new Role();
     user.name = name;
     user.email = email;
     user.date_of_birth = date_of_birth;
+    user.phone = phone;
+    user.photo = photo;
     user.password = password;
     user.role.id = roleId;
     return user;

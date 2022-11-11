@@ -1,11 +1,9 @@
 import {
   IsEmail,
   IsNotEmpty,
-  IsInt,
   IsString,
   IsUUID,
   Matches,
-  IsDate,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { RegexHelper } from '@shared/helpers/regex.helper';
@@ -53,7 +51,7 @@ export class UserCreateDto {
     required: true,
     type: String,
   })
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   date_of_birth: string;
 

@@ -6,5 +6,7 @@ export class User extends BaseEntity {
   public password: string;
   public email: string;
   public date_of_birth: string;
+  public photo: string;
+  public phone: string;
   public role: Role;
 }

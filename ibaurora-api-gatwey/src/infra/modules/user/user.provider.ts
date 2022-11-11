@@ -9,6 +9,11 @@ import { UserRepository } from '@core/domain/repositories/user.repository';
 import { BcryptAdapter } from '@infra/adapters/bcrypt.adapter';
 import { UserTypeOrmRepository } from '@infra/db/type-orm/repositories/user-typeorm.repository';
 import { DataSource } from 'typeorm';
+import {
+  GetUserUsecase,
+  RemoveUserUseCase,
+  UpdateUserUseCase,
+} from '@/core/application/user';
 
 export const userProvider: Provider[] = [
   {
@@ -48,32 +53,29 @@ export const userProvider: Provider[] = [
     },
     inject: [BcryptAdapter, CreateUserMapper, UserTypeOrmRepository],
   },
-  // {
-  //   provide: CreateUserUseCase,
-  //   useFactory: (userRepository: UserRepository): CreateUserUseCase => {
-  //     return new CreateUserUseCase(userRepository);
-  //   },
-  //   inject: [UserTypeOrmRepository],
-  // },
-  // {
-  //   provide: GetUserUsecase,
-  //   useFactory: (userRepository: UserRepository): GetUserUsecase => {
-  //     return new GetUserUsecase(userRepository);
-  //   },
-  //   inject: [UserTypeOrmRepository],
-  // },
-  // {
-  //   provide: UpdateUserUseCase,
-  //   useFactory: (userRepository: UserRepository): UpdateUserUseCase => {
-  //     return new UpdateUserUseCase(userRepository);
-  //   },
-  //   inject: [UserTypeOrmRepository],
-  // },
-  // {
-  //   provide: RemoveUserUseCase,
-  //   useFactory: (userRepository: UserRepository): RemoveUserUseCase => {
-  //     return new RemoveUserUseCase(userRepository);
-  //   },
-  //   inject: [UserTypeOrmRepository],
-  // },
+  {
+    provide: GetUserUsecase,
+    useFactory: (userRepository: UserRepository): GetUserUsecase => {
+      return new GetUserUsecase(userRepository);
+    },
+    inject: [UserTypeOrmRepository],
+  },
+  {
+    provide: UpdateUserUseCase,
+    useFactory: (
+      hasher: HasherInterface,
+      createUserMapper: CreateUserMapper,
+      userRepository: UserRepository,
+    ): UpdateUserUseCase => {
+      return new UpdateUserUseCase(hasher, createUserMapper, userRepository);
+    },
+    inject: [BcryptAdapter, CreateUserMapper, UserTypeOrmRepository],
+  },
+  {
+    provide: RemoveUserUseCase,
+    useFactory: (userRepository: UserRepository): RemoveUserUseCase => {
+      return new RemoveUserUseCase(userRepository);
+    },
+    inject: [UserTypeOrmRepository],
+  },
 ];
