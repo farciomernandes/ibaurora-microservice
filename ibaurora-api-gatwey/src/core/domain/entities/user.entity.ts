@@ -1,4 +1,5 @@
 import { BaseEntity } from '../../base/entities/base.entity';
+import { PrayerRequest } from './prayer-request.entity';
 import { Role } from './role.entity';
 
 export class User extends BaseEntity {
@@ -9,4 +10,5 @@ export class User extends BaseEntity {
   public photo: string;
   public phone: string;
   public role: Role;
+  public prayer_requests: PrayerRequest[];
 }

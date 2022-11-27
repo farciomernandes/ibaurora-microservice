@@ -45,5 +45,12 @@ export const UserSchema = new EntitySchema<User>({
       joinColumn: { name: 'role_id', referencedColumnName: 'id' },
       onDelete: 'NO ACTION',
     },
+    prayer_requests: {
+      nullable: true,
+      target: 'prayer_requests',
+      type: 'many-to-one',
+      joinColumn: { name: 'prayer_request_id', referencedColumnName: 'id' },
+      onDelete: 'NO ACTION',
+    },
   },
 });
