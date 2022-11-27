@@ -19,7 +19,7 @@
     "migration:create": "yarn typeorm migration:create",
     "migration:generate": "yarn typeorm migration:generate -d src/infra/db/database.provider.ts",
     "migration:latest": "yarn build && yarn typeorm migration:run -d src/infra/db/database.provider.ts",
-    "migration:revert": "yarn typeorm migration:revert",
+    "migration:revert": "yarn typeorm migration:revert -d src/infra/db/database.provider.ts",
     "test": "jest --forceExit --detectOpenHandles",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
